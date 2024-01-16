@@ -1,20 +1,12 @@
-﻿using System;
-
-using Android.App;
-using Android.Content;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+﻿using Android.App;
 using Android.OS;
-using System.Collections.Generic;
 using Android.Webkit;
-using System.IO;
-using System.Net;
 using Newtonsoft.Json;
-using Org.Json;
+using System.Net.Http.Headers;
+using System.Net.Http;
 
-namespace CustomRowView {
-    [Activity(Label = "CustomRowView", MainLauncher = true, Icon = "@drawable/icon")]
+namespace MyBible {
+    [Activity(Label = "MyBible", MainLauncher = true, Icon = "@drawable/icon")]
     public class HomeScreen : Activity{//, View.IOnClickListener {
 
         WebView webView;
@@ -40,33 +32,22 @@ namespace CustomRowView {
 
         protected string get(string url)
         {
+
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             try
             {
-                string rt;
-
-                WebRequest request = WebRequest.Create(url);
-
-                WebResponse response = request.GetResponse();
-
-
-                Stream dataStream = response.GetResponseStream();
-
-                StreamReader reader = new StreamReader(dataStream);
-
-                rt = reader.ReadToEnd();
-
-                Console.WriteLine(rt);
-
-                reader.Close();
-                response.Close();
-
-                return rt;
+                HttpResponseMessage response = client.GetAsync(url).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsStringAsync().Result;
+                }
             }
-
-            catch (Exception ex)
+            catch
             {
-                return "Error: " + ex.Message;
+
             }
+            return null;
         }
 
 

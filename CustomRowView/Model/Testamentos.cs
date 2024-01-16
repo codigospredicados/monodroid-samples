@@ -1,4 +1,7 @@
-﻿public class Testamentos
+﻿namespace MyBible
 {
-    public TestamentoDTO[] testamentos { get; set; }
+    public class Testamentos
+    {
+        public TestamentoDTO[] testamentos { get; set; }
+    }
 }

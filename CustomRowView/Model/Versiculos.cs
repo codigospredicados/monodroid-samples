@@ -1,4 +1,7 @@
-﻿public class Versiculos
+﻿namespace MyBible
 {
-    public VersiculoDTO[] versiculos { get; set; }
+    public class Versiculos
+    {
+        public VersiculoDTO[] versiculos { get; set; }
+    }
 }

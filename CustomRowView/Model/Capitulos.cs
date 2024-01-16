@@ -1,4 +1,7 @@
-﻿public class Capitulos
+﻿namespace MyBible
 {
-    public CapituloDTO[] capitulos{ get; set; }
+    public class Capitulos
+    {
+        public CapituloDTO[] capitulos { get; set; }
+    }
 }

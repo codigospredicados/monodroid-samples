@@ -10,7 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-namespace CustomRowView {
+namespace MyBible {
     public class TableItem {
         public string Heading { get; set; }
         public string SubHeading { get; set; }

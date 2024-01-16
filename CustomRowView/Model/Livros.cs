@@ -1,4 +1,7 @@
-﻿public class Livros
+﻿namespace MyBible
 {
-    public LivroDTO[] livros{ get; set; }
+    public class Livros
+    {
+        public LivroDTO[] livros { get; set; }
+    }
 }

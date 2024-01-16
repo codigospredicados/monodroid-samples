@@ -1,4 +1,7 @@
-﻿public class CapituloDTO : LivroDTO
+﻿namespace MyBible
 {
-    public int Capitulo { get; set; }
+    public class CapituloDTO : LivroDTO
+    {
+        public int Capitulo { get; set; }
+    }
 }
