@@ -7,39 +7,68 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using System.Collections.Generic;
+using Android.Webkit;
+using System.IO;
+using System.Net;
+using Newtonsoft.Json;
+using Org.Json;
 
 namespace CustomRowView {
     [Activity(Label = "CustomRowView", MainLauncher = true, Icon = "@drawable/icon")]
     public class HomeScreen : Activity{//, View.IOnClickListener {
 
-        List<TableItem> tableItems = new List<TableItem>();
-        ListView listView;
+        WebView webView;
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-            SetContentView(Resource.Layout.HomeScreen);
-            listView = FindViewById<ListView>(Resource.Id.List);
+            SetContentView(Resource.Layout.Test);
+            webView = FindViewById<WebView>(Resource.Id.webView1);
+            webView.LoadData("<span style=\"font-size: 2px\">1</span>Texto <B>Em bold</B> em normal de novo", null, null);
 
-            tableItems.Add(new TableItem() { Heading = "Vegetables", SubHeading = "65 items", ImageResourceId = Resource.Drawable.Vegetables });
-            tableItems.Add(new TableItem() { Heading = "Fruits", SubHeading = "17 items", ImageResourceId = Resource.Drawable.Fruits });
-            tableItems.Add(new TableItem() { Heading = "Flower Buds", SubHeading = "5 items", ImageResourceId = Resource.Drawable.FlowerBuds });
-            tableItems.Add(new TableItem() { Heading = "Legumes", SubHeading = "33 items", ImageResourceId = Resource.Drawable.Legumes });
-            tableItems.Add(new TableItem() { Heading = "Bulbs", SubHeading = "18 items", ImageResourceId = Resource.Drawable.Bulbs });
-            tableItems.Add(new TableItem() { Heading = "Tubers", SubHeading = "43 items", ImageResourceId = Resource.Drawable.Tubers });
+            string data = get("http://185.11.167.75/se7ening/api.php/testamento/1/livro/1/capitulos");
 
-            listView.Adapter = new HomeScreenAdapter(this, tableItems);
+            var ver = JsonConvert.DeserializeObject<Capitulos>(data);
 
-            listView.ItemClick += OnListItemClick;
+            data = get("http://185.11.167.75/se7ening/api.php/testamento/1/livro/2/capitulo/3");
+
+            ver = JsonConvert.DeserializeObject<Capitulos>(data);
+            
+            var a = 1;
         }
 
-        protected void OnListItemClick(object sender, Android.Widget.AdapterView.ItemClickEventArgs e)
+        protected string get(string url)
         {
-            var listView = sender as ListView;
-            var t = tableItems[e.Position];
-            Android.Widget.Toast.MakeText(this, t.Heading, Android.Widget.ToastLength.Short).Show();
-            Console.WriteLine("Clicked on " + t.Heading);
+            try
+            {
+                string rt;
+
+                WebRequest request = WebRequest.Create(url);
+
+                WebResponse response = request.GetResponse();
+
+
+                Stream dataStream = response.GetResponseStream();
+
+                StreamReader reader = new StreamReader(dataStream);
+
+                rt = reader.ReadToEnd();
+
+                Console.WriteLine(rt);
+
+                reader.Close();
+                response.Close();
+
+                return rt;
+            }
+
+            catch (Exception ex)
+            {
+                return "Error: " + ex.Message;
+            }
         }
+
+
     }
 }
