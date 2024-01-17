@@ -5,9 +5,11 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Net.Http;
 
-namespace MyBible {
+namespace MyBible
+{
     [Activity(Label = "MyBible", MainLauncher = true, Icon = "@drawable/icon")]
-    public class HomeScreen : Activity{//, View.IOnClickListener {
+    public class HomeScreen : Activity
+    {//, View.IOnClickListener {
 
         WebView webView;
 
@@ -19,6 +21,17 @@ namespace MyBible {
             webView = FindViewById<WebView>(Resource.Id.webView1);
             webView.LoadData("<span style=\"font-size: 2px\">1</span>Texto <B>Em bold</B> em normal de novo", null, null);
 
+            MyBible.HttpRequest http = new HttpRequest()
+            {
+                Url = "http://185.11.167.75/se7ening/api.php/testamento/1/livro/1/capitulo/1/versiculos",
+                Username = "david",
+                Password = "buendia27",
+                RequestServer = "http://127.0.0.1",
+                TimeRequest = new System.DateTime(2024, 01, 17, 16, 33, 30)
+            };
+
+            var token = http.GetToken();
+
             string data = get("http://185.11.167.75/se7ening/api.php/testamento/1/livro/1/capitulos");
 
             var ver = JsonConvert.DeserializeObject<Capitulos>(data);
@@ -26,7 +39,7 @@ namespace MyBible {
             data = get("http://185.11.167.75/se7ening/api.php/testamento/1/livro/2/capitulo/3");
 
             ver = JsonConvert.DeserializeObject<Capitulos>(data);
-            
+
             var a = 1;
         }
 
