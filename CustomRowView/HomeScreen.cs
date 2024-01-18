@@ -4,6 +4,7 @@ using Android.Webkit;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Net.Http;
+using static Android.Media.Session.MediaSession;
 
 namespace MyBible
 {
@@ -32,22 +33,23 @@ namespace MyBible
 
             var token = http.GetToken();
 
-            string data = get("http://185.11.167.75/se7ening/api.php/testamento/1/livro/1/capitulos");
+            string data = get("http://185.11.167.75/se7ening/api.php/testamento/1/livro/1/capitulos", token);
 
             var ver = JsonConvert.DeserializeObject<Capitulos>(data);
 
-            data = get("http://185.11.167.75/se7ening/api.php/testamento/1/livro/2/capitulo/3");
+            data = get("http://185.11.167.75/se7ening/api.php/testamento/1/livro/2/capitulo/3", token);
 
             ver = JsonConvert.DeserializeObject<Capitulos>(data);
 
             var a = 1;
         }
 
-        protected string get(string url)
+        protected string get(string url, string token)
         {
 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             try
             {
                 HttpResponseMessage response = client.GetAsync(url).Result;

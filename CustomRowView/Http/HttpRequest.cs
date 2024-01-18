@@ -19,12 +19,14 @@ namespace MyBible
 
         public string GetToken()
         {
-            return Cypher.Base64Encode(string.Format("{0}-{1}-{2}-{3}-{4}",
+            string text = string.Format("{0}-{1}-{2}-{3}-{4}",
                 this.Url,
                 this.Username,
                 Cypher.GetMd5Hash(string.Format("{0}:{1}", this.Username, this.Password)),
-                this.RequestServer, 
-                this.TimeRequest.ToString("s")));
+                this.RequestServer,
+                this.TimeRequest.ToString("s"));
+
+            return Cypher.Base64Encode(text);
         }
     }
 }
